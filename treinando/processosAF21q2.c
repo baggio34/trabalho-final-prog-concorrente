@@ -31,25 +31,25 @@
 
 
 int main() {
-    pid_t pid; //processo principal
+    pid_t pid; //cria o processo principal
 
     // cria 2 filhos
     for (int i = 0; i < 2; i++) {
-        pid = fork();
+        pid = fork(); // cria uma duplicata do pai (filho) a cada loop
 
-        if (pid >= 0) { //se pid é positivo criou o processo
+        if (pid >= 0) { //se pid é positivo criou o processo com sucesso
             if (pid == 0) { //processo filho
                 printf("\nProcesso %d, filho de %d\n\n", getpid(), getppid());
 
                 //cada filho cria 3 filhos (netos)
                 for (int i = 0; i < 3; i++) {
-                    pid_t neto = fork();
+                    pid_t neto = fork(); //mesma lógica, 3 duplicatas do filho (netos)
 
                     if (neto == 0) { //processo neto
                         printf("\nProcesso %d, filho de %d. (neto)\n\n", getpid(), getppid());
-                        sleep(5);
+                        sleep(5); //espera 5 segundos para finalizar o processo
                         printf("Processo %d finalizado. (neto)\n", getpid());
-                        exit(0);
+                        exit(0); //processo finalziado com sucesso (neto)
                     }
                 }
 
@@ -78,6 +78,6 @@ int main() {
 
     printf("Processo principal %d finalizado\n", getpid());
 
-    return 0;
+    return 0; //retorna sucesso
 
 }
