@@ -11,17 +11,21 @@
 *============================================================================*/
 
 
-// Representa uma cadeira, podendo ser EMPTY e TAKEN.
-typedef enum chair {
+/* 
+ * Representa um espaço sentável, cadeira + 2 pratos, com uma cadeira vazia de separação
+ * Devido à cadeira vazia que separa os espaços, não é necessário se preocupar com o tipo
+ * de viking que nela senta. 
+ */
+typedef enum seatplates {
     EMPTY,
     TAKEN,
-} chair_t;
+} seatplates_t;
 
 // Contém as informações da mesa.
 typedef struct table {
-    int occupied_chairs;
+    int occupied_seatplates;
     pthread_mutex_t mutex; // Mutex para controlar entrada na mesa
-    chair_t chairs[];
+    seatplates_t seatplates[];
 } table_t;
 
 /**
@@ -31,9 +35,6 @@ typedef struct chieftain {
     valhalla_t* valhalla;   /* Referência para valhalla.  */
     table_t* table;
      
-    /* TODO: Adicione aqui os atributos que achar necessários para implementar o
-    comportamento do chieftain. Esses atributos deverão ser usados pelas funções
-    do chieftain. */
 } chieftain_t;
 
 /*============================================================================*

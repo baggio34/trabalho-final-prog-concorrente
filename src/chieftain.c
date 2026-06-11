@@ -6,10 +6,10 @@
 #include "valhalla.h"
 
 void table_init(table_t* self) {
-    self->occupied_chairs = 0;
+    self->occupied_seatplates = 0;
     pthread_mutex_init(&self->mutex, NULL);
-    for (int i = 0; i < config.table_size; i++) {
-        self->chairs[i] = EMPTY;
+    for (int i = 0; i < config.table_size/2; i++) {
+        self->seatplates[i] = EMPTY;
     }
 }
 
@@ -20,7 +20,8 @@ void table_finalize(table_t* self) {
 
 void chieftain_init(chieftain_t *self, valhalla_t *valhalla)
 {
-    self->table = (table_t*) malloc(sizeof(table_t) + sizeof(chair_t) * config.table_size); 
+    // Número de espaços disponíveis é metade do número de assentos arredondado para baixo
+    self->table = (table_t*) malloc(sizeof(table_t) + sizeof(seatplates_t) * config.table_size/2); 
     self->valhalla = valhalla;
     plog("[chieftain] Initialized\n");
 }
