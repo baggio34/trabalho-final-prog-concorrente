@@ -1,3 +1,5 @@
+#include <pthread.h>
+#include <semaphore.h>
 #include <time.h>
 #include <math.h>
 #include <stdlib.h>
@@ -7,20 +9,23 @@
 
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
+// TODO: inicialização e finalização de valhalla
+
 void valhalla_init(valhalla_t *self)
 {
-    /* Inicializa os contadores de preces. */
     for (int i = 0; i < NUMBER_OF_GODS; i++)
         self->prayers[i] = 0;
 
-    /* TODO: Adicionar código aqui se necessário! */
+    pthread_mutex_init(&self->mutex, NULL);
+    sem_init(&self->semaphore, 0, 0);
 
     plog("[valhalla] Initialized\n");
 }
 
 void valhalla_finalize(valhalla_t *self)
 {
-    /* TODO: Adicionar código aqui se necessário! */
+    pthread_mutex_destroy(&self->mutex);
+    sem_destroy(&self->semaphore);
     
     plog("[valhalla] Finalized\n");
 }

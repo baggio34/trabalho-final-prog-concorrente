@@ -1,8 +1,7 @@
 #ifndef __GOD_H__
 #define __GOD_H__
 
-    #include <bits/pthreadtypes.h>
-#include <semaphore.h>
+    #include <semaphore.h>
     #include <pthread.h>
     #include "config.h"    
 
