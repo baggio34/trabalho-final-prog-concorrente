@@ -39,8 +39,7 @@ void chieftain_release_seat_plates(chieftain_t *self, int pos)
 
 god_t chieftain_get_god(chieftain_t *self)
 {
-    /* TODO: Implementar! O código abaixo deve ser modificado! */
-    god_t god = THOR;
+    god_t god;
     
     return god;
 }

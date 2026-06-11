@@ -21,6 +21,12 @@
         THOR         /* oitavo deus não possui rivais.        */
     } god_t;
 
+    // Armazena as possibilidades de orações;
+    typedef struct prayer_options {
+        god_t gods[NUMBER_OF_GODS];
+        int amount;
+    } prayer_options_t;
+
     /**
      * @brief Define os atributos de valhalla.
      */
@@ -45,6 +51,8 @@
      */
     extern void valhalla_finalize(valhalla_t *self);
 
+    extern prayer_options_t valhalla_prayer_options(valhalla_t* self);
+    
     /**
      * @brief Realiza uma prece para um deus.
      * 
@@ -61,6 +69,12 @@
      */
     extern int valhalla_is_super(god_t god);
 
+    /**
+     * @param god Deus a ser verificado.
+     * 
+     * @returns A quantidade máxima de preces ao determinado deus sem que haja desavenças.
+     */
+    extern int valhalla_max_prayers(valhalla_t* self, god_t god);
     /**
      * @brief Verifica se há desavença entre dois deuses.
      * 
