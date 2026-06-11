@@ -1,6 +1,8 @@
 #ifndef __GOD_H__
 #define __GOD_H__
 
+    #include <bits/pthreadtypes.h>
+#include <semaphore.h>
     #include <pthread.h>
     #include "config.h"    
 
@@ -26,10 +28,8 @@
     typedef struct valhalla
     {
         unsigned int prayers[NUMBER_OF_GODS]; /* Controla o número de preces por deus. */
-
-        /* TODO: Adicione aqui os atributos que achar necessários para implementar o
-        comportamento de valhalla. Esses atributos deverão ser usados pelas funções
-        de valhalla. */
+        sem_t semaphore; // Semáforo que indica o começo da etapa das preces
+        pthread_mutex_t mutex; // Controla a entrada na roda de prece;
     } valhalla_t;
 
     /*============================================================================*
