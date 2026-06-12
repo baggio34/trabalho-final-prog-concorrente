@@ -20,35 +20,24 @@ int valhalla_max_prayers(valhalla_t* self, god_t god) {
     if (god == ODIN || god == THOR) return ceil(valhalla_lower_gods_prayer_count(self) * 1.1);
 
     int other_god_count = self->prayers[valhalla_get_rival(god)];
-    return ceil(other_god_count * 1.05);
+    return MAX(1, (int) ceil(other_god_count * 1.05));
 }
 
 prayer_options_t valhalla_prayer_options(valhalla_t* self) {
-    prayer_options_t rival;
-    prayer_options_t zeroed;
-    prayer_options_t others;
+    prayer_options_t options;
+    options.amount = 0;
 
     pthread_mutex_lock(&self->mutex);
     for (int god = 0; god < NUMBER_OF_GODS; god++) {
         int prayer_count = self->prayers[god];
 
-        if (prayer_count > valhalla_max_prayers(self, god)) {
-            rival.gods[rival.amount++] = valhalla_get_rival(god);
-        }
-
-        if (prayer_count == 0 && god < ODIN) {
-            zeroed.gods[zeroed.amount++] = god;
-        }
-
         if (prayer_count < valhalla_max_prayers(self, god)) {
-            others.gods[others.amount++] = god;
+            options.gods[options.amount++] = god;
         }
     }
     pthread_mutex_unlock(&self->mutex);
 
-    if (rival.amount != 0) return rival;
-    if (zeroed.amount != 0) return zeroed;
-    return others;
+    return options;
 }
 
 void valhalla_init(valhalla_t *self) {
