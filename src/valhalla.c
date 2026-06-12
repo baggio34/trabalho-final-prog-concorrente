@@ -1,6 +1,5 @@
 #include <pthread.h>
 #include <semaphore.h>
-#include <time.h>
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -30,7 +29,6 @@ prayer_options_t valhalla_prayer_options(valhalla_t* self) {
     prayer_options_t others;
 
     pthread_mutex_lock(&self->mutex);
-
     for (int god = 0; god < NUMBER_OF_GODS; god++) {
         int prayer_count = self->prayers[god];
 
@@ -46,7 +44,6 @@ prayer_options_t valhalla_prayer_options(valhalla_t* self) {
             others.gods[others.amount++] = god;
         }
     }
-
     pthread_mutex_unlock(&self->mutex);
 
     if (rival.amount != 0) return rival;
@@ -55,9 +52,10 @@ prayer_options_t valhalla_prayer_options(valhalla_t* self) {
 }
 
 void valhalla_init(valhalla_t *self) {
-    for (int i = 0; i < NUMBER_OF_GODS; i++)
+    for (int i = 0; i < NUMBER_OF_GODS; i++) {
         self->prayers[i] = 0;
-
+    }
+    
     pthread_mutex_init(&self->mutex, NULL);
     sem_init(&self->semaphore, 0, 0);
 
@@ -72,12 +70,9 @@ void valhalla_finalize(valhalla_t *self) {
 }
 
 void valhalla_pray(valhalla_t *self, god_t god) {
-    /* TODO: Adicionar código se necessário! */
-
-    // PRECISAMOS TRATAR CONFLITOS DE RIVAIS!!!!!
-
-    /* Atualiza o número de preces do deus god. */
+    pthread_mutex_lock(&self->mutex);
     self->prayers[god]++;
+    pthread_mutex_unlock(&self->mutex);
 
     /* Realiza a prece por um tempo determinado (NÃO ALTERE!). */
     msleep(rand() % config.max_pray_time);

@@ -1,5 +1,4 @@
 #include <pthread.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include "config.h"
 #include "chieftain.h"
@@ -18,12 +17,10 @@ void table_finalize(table_t* self) {
     free(self);
 }
 
-void chieftain_init(chieftain_t *self, valhalla_t *valhalla, horde_t *horde)
-{
+void chieftain_init(chieftain_t *self, valhalla_t *valhalla) {
     // Número de espaços disponíveis é metade do número de assentos arredondado para baixo
     self->table = (table_t*) malloc(sizeof(table_t) + sizeof(seatplates_t) * config.table_size/2); 
     self->valhalla = valhalla;
-    self->horde = horde;
     plog("[chieftain] Initialized\n");
 }
 
@@ -38,16 +35,11 @@ void chieftain_release_seat_plates(chieftain_t *self, int pos)
     /* TODO: Implementar! */
 }
 
-god_t chieftain_get_god(chieftain_t *self)
-{
-    god_t god;
-    prayer_options_t gods = valhalla_prayer_options(self->valhalla);
+god_t chieftain_get_god(chieftain_t *self) {
+    prayer_options_t options = valhalla_prayer_options(self->valhalla);
 
-    srand((unsigned int)time(NULL));
-    int godIndex = rand() % gods.amount;
-    god = gods.gods[godIndex];
-
-    return god;
+    int random_index = rand() % options.amount;
+    return options.gods[random_index];
 }
 
 void chieftain_finalize(chieftain_t *self)
