@@ -47,8 +47,7 @@ config_t parse (int argc, char **argv)
  *                                                           *
  * --------------------------------------------------------- */
 
-int main (int argc, char **argv)
-{
+int main (int argc, char **argv) {
     chieftain_t chieftain;
     valhalla_t valhalla;
     horde_t horde;
@@ -76,7 +75,7 @@ int main (int argc, char **argv)
     /* Inicializa o chieftain. */    
     chieftain_init(&chieftain, &valhalla);
 
-    /* Inicializa a hora de vikings. */
+    /* Inicializa a horda de vikings. */
     horde_init(&horde, &chieftain, &valhalla);
     
     /* Cria os vikings normais (ou seja, os que participam do banquete e das preces). */

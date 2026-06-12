@@ -18,11 +18,12 @@ void table_finalize(table_t* self) {
     free(self);
 }
 
-void chieftain_init(chieftain_t *self, valhalla_t *valhalla)
+void chieftain_init(chieftain_t *self, valhalla_t *valhalla, horde_t *horde)
 {
     // Número de espaços disponíveis é metade do número de assentos arredondado para baixo
     self->table = (table_t*) malloc(sizeof(table_t) + sizeof(seatplates_t) * config.table_size/2); 
     self->valhalla = valhalla;
+    self->horde = horde;
     plog("[chieftain] Initialized\n");
 }
 
@@ -40,7 +41,12 @@ void chieftain_release_seat_plates(chieftain_t *self, int pos)
 god_t chieftain_get_god(chieftain_t *self)
 {
     god_t god;
-    
+    prayer_options_t gods = valhalla_prayer_options(self->valhalla);
+
+    srand((unsigned int)time(NULL));
+    int godIndex = rand() % gods.amount;
+    god = gods.gods[godIndex];
+
     return god;
 }
 
