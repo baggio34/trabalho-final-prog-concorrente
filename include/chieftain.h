@@ -34,6 +34,8 @@ typedef struct table {
 typedef struct chieftain {
     valhalla_t* valhalla;   /* Referência para valhalla.  */
     table_t* table;
+    int vikings_ate;
+    pthread_mutex_t mutex_contador; // Mutex para controlar entrada na roda de oracao
 } chieftain_t;
 
 /*============================================================================*

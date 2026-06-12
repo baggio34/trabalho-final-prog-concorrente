@@ -22,6 +22,8 @@ void chieftain_init(chieftain_t *self, valhalla_t *valhalla) {
     self->table = (table_t*) malloc(sizeof(table_t) + sizeof(seatplates_t) * config.table_size/2); 
     self->valhalla = valhalla;
     plog("[chieftain] Initialized\n");
+
+    pthread_mutex_init(&self->mutex_contador, NULL);
 }
 
 int chieftain_acquire_seat_plates(chieftain_t *self, int berserker)
@@ -33,9 +35,27 @@ int chieftain_acquire_seat_plates(chieftain_t *self, int berserker)
 void chieftain_release_seat_plates(chieftain_t *self, int pos)
 {
     /* TODO: Implementar! */
+
+    pthread_mutex_lock(&self->mutex_contador);
+
+    self->vikings_ate++;
+
+    if (self->vikings_ate == config.horde_size) {
+
+        sem_post(&self->valhalla->semaphore);
+        
+    }   
+
+    pthread_mutex_unlock(&self->mutex_contador);
+
+
 }
 
 god_t chieftain_get_god(chieftain_t *self) {
+
+    sem_wait(&self->valhalla->semaphore); // semaforo de espera para iniciar a reza braba
+    sem_post(&self->valhalla->semaphore);
+    
     prayer_options_t options = valhalla_prayer_options(self->valhalla);
 
     int random_index = rand() % options.amount;
@@ -46,4 +66,7 @@ void chieftain_finalize(chieftain_t *self)
 {
     table_finalize(self->table);
     plog("[chieftain] Finalized\n");
+    
+    pthread_mutex_destroy(&self->mutex_contador);
+
 }
