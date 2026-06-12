@@ -29,6 +29,7 @@ prayer_options_t valhalla_prayer_options(valhalla_t* self) {
     prayer_options_t zeroed;
     prayer_options_t others;
 
+    pthread_mutex_lock(&self->mutex);
 
     for (int god = 0; god < NUMBER_OF_GODS; god++) {
         int prayer_count = self->prayers[god];
@@ -45,6 +46,8 @@ prayer_options_t valhalla_prayer_options(valhalla_t* self) {
             others.gods[others.amount++] = god;
         }
     }
+
+    pthread_mutex_unlock(&self->mutex);
 
     if (rival.amount != 0) return rival;
     if (zeroed.amount != 0) return zeroed;

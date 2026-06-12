@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include "valhalla.h"
+#include "horde.h"
 
 /*============================================================================*
  * DESCRIÇÃO: O chieftain é o chefe da horda de vikings. É através dele que   *
@@ -34,7 +35,7 @@ typedef struct table {
 typedef struct chieftain {
     valhalla_t* valhalla;   /* Referência para valhalla.  */
     table_t* table;
-     
+    horde_t* horde;     
 } chieftain_t;
 
 /*============================================================================*
@@ -48,8 +49,9 @@ typedef struct chieftain {
  * 
  * @param self O chieftain.
  * @param valhalla Valhalla.
+ * @param horde Horda
  */
-extern void chieftain_init(chieftain_t *self, valhalla_t *valhalla);
+extern void chieftain_init(chieftain_t *self, valhalla_t *valhalla, horde_t *horde);
 
 /**
  * @brief Finaliza o chieftain (o chefe da horda).
