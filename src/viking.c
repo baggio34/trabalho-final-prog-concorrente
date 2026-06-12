@@ -11,7 +11,7 @@ void viking_init(viking_t *self, chieftain_t *chieftain, valhalla_t *valhalla, i
     self->valhalla = valhalla;
     
     self->berserker = berserker;
-    self->type = type;
+    self->type = type; // normal ou atrasado
     self->id = id;
 
     plog("[viking] Initialized (id=%d, berserker=%d, type=%d)\n", id, berserker, type);
@@ -20,6 +20,9 @@ void viking_init(viking_t *self, chieftain_t *chieftain, valhalla_t *valhalla, i
 void viking_finalize(viking_t *self)
 {
     /* TODO: Adicionar código aqui se necessário! */
+
+    // mata o viking T-T
+    
     plog("[viking] Finalized");
 }
 

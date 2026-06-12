@@ -34,7 +34,6 @@ typedef struct table {
 typedef struct chieftain {
     valhalla_t* valhalla;   /* Referência para valhalla.  */
     table_t* table;
-     
 } chieftain_t;
 
 /*============================================================================*
