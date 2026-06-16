@@ -31,10 +31,10 @@ void viking_eat(viking_t *self)
     
     /* Se alimenta. */
     msleep(rand() % config.max_eat_time);
+    plog("[viking] Viking=%d has finished eating (chair=%d)\n", self->id, chair);
     
     /* Informa ao chieftain que terminou de comer, liberando a cadeira e os pratos. */
     chieftain_release_seat_plates(self->chieftain, chair);
-    plog("[viking] Viking=%d has finished eating (chair=%d)\n", self->id, chair);
 }
 
 void viking_pray(viking_t *self)

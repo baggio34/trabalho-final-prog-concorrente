@@ -41,16 +41,12 @@ void horde_spawn_viking(horde_t *self, int berserker, int type)
 
 void horde_join(horde_t *self)
 {
-    /* TODO: Adicionar código aqui se necessário! */
-
     for (int i = 0; i < self->normal_vikings + self->late_vikings; i++)
         pthread_join(self->vikings[i].thread, NULL);
 }
 
 void horde_finalize(horde_t *self)
 {   
-    /* TODO: Adicionar código aqui se necessário! */
-
     free(self->vikings);
     plog("[horde] Finalized\n");
 }

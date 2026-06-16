@@ -24,6 +24,7 @@ typedef enum seatplates {
 // Contém as informações da mesa.
 typedef struct table {
     int occupied_seatplates;
+    pthread_mutex_t mutex; // Mutex para proteger as variáveis da mesa
     sem_t semaphore; // Semáforo para controlar entrada na mesa
     seatplates_t seatplates[];
 } table_t;
