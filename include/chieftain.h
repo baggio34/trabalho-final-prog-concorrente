@@ -24,7 +24,7 @@ typedef enum seatplates {
 // Contém as informações da mesa.
 typedef struct table {
     int occupied_seatplates;
-    pthread_mutex_t mutex; // Mutex para controlar entrada na mesa
+    sem_t semaphore; // Semáforo para controlar entrada na mesa
     seatplates_t seatplates[];
 } table_t;
 
@@ -34,8 +34,6 @@ typedef struct table {
 typedef struct chieftain {
     valhalla_t* valhalla;   /* Referência para valhalla.  */
     table_t* table;
-    int vikings_ate;
-    pthread_mutex_t mutex_contador; // Mutex para controlar entrada na roda de oracao
 } chieftain_t;
 
 /*============================================================================*

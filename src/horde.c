@@ -18,8 +18,6 @@ void horde_init(horde_t *self, chieftain_t *chieftain, valhalla_t *valhalla)
     self->valhalla = valhalla;
 
     plog("[horde] Initialized\n");
-    
-    /* TODO: Adicionar código aqui se necessário! */
 }
 
 void horde_spawn_viking(horde_t *self, int berserker, int type)

@@ -30,8 +30,7 @@
     /**
      * @brief Define os atributos de valhalla.
      */
-    typedef struct valhalla
-    {
+    typedef struct valhalla {
         unsigned int prayers[NUMBER_OF_GODS]; /* Controla o número de preces por deus. */
         sem_t semaphore; // Semáforo que indica o começo da etapa das preces
         pthread_mutex_t mutex; // Controla a entrada na roda de prece;

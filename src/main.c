@@ -77,10 +77,11 @@ int main (int argc, char **argv) {
 
     /* Inicializa a horda de vikings. */
     horde_init(&horde, &chieftain, &valhalla);
-    
+   
     /* Cria os vikings normais (ou seja, os que participam do banquete e das preces). */
-    for (int i = 0; i < config.horde_size; i++)
+    for (int i = 0; i < config.horde_size; i++) {
         horde_spawn_viking(&horde, (rand() % 10) < 5, NORMAL_VIKING);
+    }
 
     /* Aguarda um tempo antes de criar os vikings que chegam atrasados.
        Estes vikings participam somente das preces. */
