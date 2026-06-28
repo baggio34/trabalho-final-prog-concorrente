@@ -27,7 +27,6 @@ prayer_options_t valhalla_prayer_options(valhalla_t* self) {
     prayer_options_t options;
     options.amount = 0;
 
-    pthread_mutex_lock(&self->mutex);
     for (int god = 0; god < NUMBER_OF_GODS; god++) {
         int prayer_count = self->prayers[god];
 
@@ -35,7 +34,6 @@ prayer_options_t valhalla_prayer_options(valhalla_t* self) {
             options.gods[options.amount++] = god;
         }
     }
-    pthread_mutex_unlock(&self->mutex);
 
     return options;
 }
@@ -59,10 +57,6 @@ void valhalla_finalize(valhalla_t *self) {
 }
 
 void valhalla_pray(valhalla_t *self, god_t god) {
-    pthread_mutex_lock(&self->mutex);
-    self->prayers[god]++;
-    pthread_mutex_unlock(&self->mutex);
-
     /* Realiza a prece por um tempo determinado (NÃO ALTERE!). */
     msleep(rand() % config.max_pray_time);
 }

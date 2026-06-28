@@ -1,6 +1,4 @@
-#include <time.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <pthread.h>
 #include "viking.h"
 #include "valhalla.h"
@@ -17,12 +15,7 @@ void viking_init(viking_t *self, chieftain_t *chieftain, valhalla_t *valhalla, i
     plog("[viking] Initialized (id=%d, berserker=%d, type=%d)\n", id, berserker, type);
 }
 
-void viking_finalize(viking_t *self)
-{
-    /* TODO: Adicionar código aqui se necessário! */
-
-    // mata o viking T-T
-    
+void viking_finalize(viking_t *self) {
     plog("[viking] Finalized");
 }
 
@@ -38,10 +31,10 @@ void viking_eat(viking_t *self)
     
     /* Se alimenta. */
     msleep(rand() % config.max_eat_time);
+    plog("[viking] Viking=%d has finished eating (chair=%d)\n", self->id, chair);
     
     /* Informa ao chieftain que terminou de comer, liberando a cadeira e os pratos. */
     chieftain_release_seat_plates(self->chieftain, chair);
-    plog("[viking] Viking=%d has finished eating (chair=%d)\n", self->id, chair);
 }
 
 void viking_pray(viking_t *self)
