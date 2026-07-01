@@ -8,6 +8,37 @@
 
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
+void check_arguments() {
+    if (config.horde_size < 0) {
+        printf("Negative vikings is a new one.\nUnless you want vikings being unborn, please specify a horde size greater than 0!\n");
+        exit(-1);
+    }
+    if (config.horde_size == 0) {
+        printf("How can a horde have no vikings, did Chieftain get impeached?\nPlease specify a horde size greater than 0!\n");
+        exit(-1);
+    }
+    if (config.max_eat_time < 0 || config.max_pray_time < 0) {
+        printf("Do you want the vikings to break the rules of causality?\nIf not, then please make sure specified times are greater than 0!\n");
+        exit(-1);
+    }
+    if (config.max_eat_time == 0) {
+        printf("What, you want the vikings to choke on their food?\nI hope not, please specify a maximum eat time greater than 0!\n");
+        exit(-1);
+    }
+    if (config.max_pray_time == 0) {
+        printf("No god would be satisfied with a prayer done in less than a second!\nPlease set a maximum prayer time greater than 0\n");
+        exit(-1);
+    }
+    if (config.table_size <= 0) {
+        printf("No table, really? I guess no one's eating then!\nPlease specify a valid table size!\n");
+        exit(-1);
+    }
+    if (config.table_size < 2) {
+        printf("That table isn't even enough for one single viking.\nPlease specify a table size greater than 1!\n");
+        exit(-1);
+    }
+}
+
 int valhalla_lower_gods_prayer_count(valhalla_t* self) {
     int count = 0;
     for (int i = 0; i < ODIN; i++) {
@@ -39,6 +70,9 @@ prayer_options_t valhalla_prayer_options(valhalla_t* self) {
 }
 
 void valhalla_init(valhalla_t *self) {
+    plog("Checking given arguments\n");
+    check_arguments();
+    
     for (int i = 0; i < NUMBER_OF_GODS; i++) {
         self->prayers[i] = 0;
     }
