@@ -1,4 +1,5 @@
-#include <time.h>
+#include <pthread.h>
+#include <semaphore.h>
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -7,31 +8,55 @@
 
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
-void valhalla_init(valhalla_t *self)
-{
-    /* Inicializa os contadores de preces. */
-    for (int i = 0; i < NUMBER_OF_GODS; i++)
-        self->prayers[i] = 0;
+int valhalla_lower_gods_prayer_count(valhalla_t* self) {
+    int count = 0;
+    for (int i = 0; i < ODIN; i++) {
+        count += self->prayers[i];
+    }
+    return count;
+}
 
-    /* TODO: Adicionar código aqui se necessário! */
+int valhalla_max_prayers(valhalla_t* self, god_t god) {
+    if (god == ODIN || god == THOR) return ceil(valhalla_lower_gods_prayer_count(self) * 1.1);
+
+    int other_god_count = self->prayers[valhalla_get_rival(god)];
+    return MAX(1, (int) ceil(other_god_count * 1.05));
+}
+
+prayer_options_t valhalla_prayer_options(valhalla_t* self) {
+    prayer_options_t options;
+    options.amount = 0;
+
+    for (int god = 0; god < NUMBER_OF_GODS; god++) {
+        int prayer_count = self->prayers[god];
+
+        if (prayer_count < valhalla_max_prayers(self, god)) {
+            options.gods[options.amount++] = god;
+        }
+    }
+
+    return options;
+}
+
+void valhalla_init(valhalla_t *self) {
+    for (int i = 0; i < NUMBER_OF_GODS; i++) {
+        self->prayers[i] = 0;
+    }
+    
+    pthread_mutex_init(&self->mutex, NULL);
+    sem_init(&self->semaphore, 0, 0);
 
     plog("[valhalla] Initialized\n");
 }
 
-void valhalla_finalize(valhalla_t *self)
-{
-    /* TODO: Adicionar código aqui se necessário! */
+void valhalla_finalize(valhalla_t *self) {
+    pthread_mutex_destroy(&self->mutex);
+    sem_destroy(&self->semaphore);
     
     plog("[valhalla] Finalized\n");
 }
 
-void valhalla_pray(valhalla_t *self, god_t god)
-{
-    /* TODO: Adicionar código se necessário! */
-
-    /* Atualiza o número de preces do deus god. */
-    self->prayers[god]++;
-
+void valhalla_pray(valhalla_t *self, god_t god) {
     /* Realiza a prece por um tempo determinado (NÃO ALTERE!). */
     msleep(rand() % config.max_pray_time);
 }

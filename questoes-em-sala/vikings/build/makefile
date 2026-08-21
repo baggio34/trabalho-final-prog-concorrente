@@ -26,11 +26,12 @@
 export CFLAGS += -Wall -Werror
 export CFLAGS += -std=c11
 
+
 # Enable pthread
 export CFLAGS += -pthread
 export CFLAGS += -D_POSIX_C_SOURCE=200809L #-Wl,--no-undefined 
 
-
+CFLAGS += -Wno-deprecated-declarations ########
 # Maps the include files
 export CFLAGS += -I $(INCDIR)
 
